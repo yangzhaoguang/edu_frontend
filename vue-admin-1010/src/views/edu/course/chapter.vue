@@ -210,6 +210,7 @@ export default {
       this.video.videoSourceId = response.data.videoId;
       // file表示当时上传的文件，file.name 获取文件名字
       this.video.videoOriginalName = file.name;
+      this.getAllChapter();
     },
     // 上传视频之前执行的方法
     handleUploadExceed() {

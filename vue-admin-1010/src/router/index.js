@@ -22,6 +22,7 @@ import Layout from '../views/layout/Layout'
   }
 **/
 export const constantRoutes = [
+ 
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
 
@@ -34,8 +35,9 @@ export const constantRoutes = [
     children: [{
       path: 'dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '谷粒学院后台首页', icon: 'dashboard' }
-    }]
+      meta: { title: '云课程后台管理系统', icon: 'dashboard' }
+    },
+  ]
   }]
 /**
  * 动态路由
@@ -148,28 +150,6 @@ export const asyncRoutes = [
         name: '增加banner图',
         component: () => import('@/views/edu/banner/save'),
         meta: { title: '增加banner图', icon: 'tree' }
-      }
-    ]
-  },
-		// 统计路由
-  {
-    path: '/sta',
-    component: Layout,
-    redirect: '/sta/create',
-    name: '统计分析',
-    meta: { title: '统计分析', icon: 'example' },
-    children: [
-      {
-        path: 'create',
-        name: '生成数据',
-        component: () => import('@/views/edu/sta/create'),
-        meta: { title: '生成数据', icon: 'table' }
-      },
-      {
-        path: 'show',
-        name: '图表显示',
-        component: () => import('@/views/edu/sta/show'),
-        meta: { title: '图表显示', icon: 'tree' }
       }
     ]
   },

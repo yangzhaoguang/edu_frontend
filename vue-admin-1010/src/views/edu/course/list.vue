@@ -83,6 +83,14 @@
             @click="removeDataById(scope.row.id)"
             >删除课程信息</el-button
           >
+
+          <el-button
+            type="info"
+            size="mini"
+            icon="el-icon-s-comment"
+            @click="jumpCommentPage(scope.row.id)"
+            >查看课程评论</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -98,14 +106,43 @@
       layout="total, prev, pager, next, jumper"
       @current-change="getList"
     />
+
+  <!-- Table-dialog -->
+<el-dialog title="评论列表" :visible.sync="dialogTableVisible">
+  <el-table :data="commentList">
+    <el-table-column property="avatar" label="头像" width="150">
+      <template slot-scope="scope">
+          <el-avatar shape="square" size="large" :src="scope.row.avatar"></el-avatar> 
+      </template>
+    </el-table-column>
+    <el-table-column property="nickname" label="昵称" width="200"></el-table-column>
+    <el-table-column property="content" label="评论内容"></el-table-column>
+    <el-table-column  label="操作">
+      <template slot-scope="scope">
+      <el-button
+            type="danger"
+            size="mini"
+            icon="el-icon-delete"
+            @click="removeComment(scope.row.id)"
+            >删除评论</el-button
+          >
+          </template>
+    </el-table-column>
+  </el-table>
+</el-dialog>
+
   </div>
 </template>
 
 <script>
 import course from "@/api/edu/course";
+import commentApi from "@/api/edu/comment";
 export default {
   data() {
     return {
+      courseId:'',
+      commentList:[],
+      dialogTableVisible:false,
       total: 0,
       current: 1,
       limit: 10,
@@ -117,6 +154,42 @@ export default {
     this.getList();
   },
   methods: {
+    // ========================================================================= 删除评论
+    removeComment(commentId){
+      this.$confirm("此操作将永久删除课程评论, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+          // 点击 确定 执行的方法
+          commentApi.removeComment(commentId).then((response) => {
+            // 删除成功的方法
+            this.$message({
+              type: "success",
+              message: "删除成功!",
+            });
+            // 刷新
+            this.jumpCommentPage(this.courseId);
+          });
+        })
+    },
+    // ========================================================================= 跳转到课程评论
+    jumpCommentPage(courseId){
+      this.courseId = courseId;
+      commentApi.selectComment(courseId).then(res =>{
+        this.commentList = res.data.commentList
+        this.dialogTableVisible = true
+      }).catch(res =>{
+        this.dialogTableVisible = false
+        //  暂无评论
+        this.$message({
+              type: "error",
+              message: res.data.message,
+            });
+      })
+
+    },
+    // ========================================================================= 编辑课程
     // 编辑课程信息
     editCourseInfo(id) {
       this.$router.push({ path: "/edu/course/info/" + id });

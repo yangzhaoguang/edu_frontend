@@ -82,7 +82,7 @@ export default {
     return {
       // teacher 里不写属性也可以，会自动创建
       teacher: {
-        avatar: 'https://edu-1010-headphoto.oss-cn-beijing.aliyuncs.com/2022/08/14/default.png'
+        avatar: 'http://inews.gtimg.com/newsapp_bt/0/9680744084/641'
       },
        BASE_API: process.env.BASE_API, // 接口API地址
       //  上传头像的 key

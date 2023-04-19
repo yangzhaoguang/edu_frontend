@@ -1,7 +1,5 @@
 <template>
   <div class="app-container">
-    <el-input v-model="filterText" placeholder="Filter keyword" style="margin-bottom:30px;"/>
-
 
     <el-table
       :data="menuList"
@@ -263,11 +261,14 @@ export default {
           if (!this.menu.id) { // 添加
             if (this.menu.pid == 0) {
               this.appendLevelOne() // 一级分类的添加
+              this.fetchNodeList()// 刷新列表
             } else {
               this.appendLevelTwo() // 二级分类的添加
+              this.fetchNodeList()// 刷新列表
             }
           } else { // 修改
             this.update(this.menu)
+            this.fetchNodeList()// 刷新列表
           }
         }
       })

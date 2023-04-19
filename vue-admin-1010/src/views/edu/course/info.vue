@@ -210,17 +210,22 @@ export default {
     },
     // 上传头像之前执行
     beforeAvatarUpload(file) {
+      console.log(file)
       // 对图片进行校验
       const isJPG = file.type === "image/jpeg";
       const isLt2M = file.size / 1024 / 1024 < 2;
+      const isPng = file.type === "image/png";
 
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
+      console.log(isJPG)
+      console.log(isPng)
+
+      if (!isJPG && !isPng) {
+        this.$message.error("上传头像图片只能是 JPG 或 PNG 格式!");
       }
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
-      return isJPG && isLt2M;
+      return (isPng || isJPG) && isLt2M ;
     },
 
     // 增加课程信息

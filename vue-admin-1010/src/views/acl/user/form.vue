@@ -5,11 +5,11 @@
         <el-input v-model="user.username"/>
       </el-form-item>
       <el-form-item label="用户昵称">
-        <el-input v-model="user.nickName"/>
+        <el-input v-model="user.nickName" />
       </el-form-item>
      
-      <el-form-item v-if="!user.id" label="用户密码" prop="password">
-        <el-input v-model="user.password"/>
+      <el-form-item  label="用户密码" prop="password">
+        <el-input v-model="user.password" show-password/>
       </el-form-item>
 
 
@@ -38,13 +38,25 @@ const validatePass = (rule, value, callback) => {
   }
 }
 
+//  ^\w+$
+const validateUserName = (rule, value, callback) => {
+  const reg=  /^\w+$/;
+  if (value == null || value =='') {
+    callback(new Error('用户名不能为空'))
+  } else if(!reg.test(value)){
+    callback(new Error('用户名必须是英文+数字'))
+  }else {
+    callback()
+  }
+}
+
 export default {
   data() {
     return {
       user: defaultForm,
       saveBtnDisabled: false, // 保存按钮是否禁用,
       validateRules: {
-        username: [{ required: true, trigger: 'blur', message: '用户名必须输入' }],
+        username: [{ required: true, trigger: 'blur', validator: validateUserName }],
         password: [{ required: true, trigger: 'blur', validator: validatePass }]
       }
     }
@@ -123,7 +135,7 @@ export default {
     // 根据id查询记录
     fetchDataById(id) {
       userApi.getById(id).then(response => {
-        this.user = response.data.item
+        this.user = response.data.user
       })
     }
 
