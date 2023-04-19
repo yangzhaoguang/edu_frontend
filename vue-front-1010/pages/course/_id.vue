@@ -156,7 +156,6 @@
                                 <a
                                   :href="'/player/' + video.videoSourceId"
                                   :title="video.title"
-                                  target="_blank"
                                 >
                                   <span
                                     v-if="Number(courseInfo.price) === 0"

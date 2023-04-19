@@ -5,8 +5,8 @@
     <header id="header">
       <section class="container">
         <h1 id="logo">
-          <a href="/" title="谷粒学院">
-            <img src="~/assets/img/无标题.png"  width="100%" height="120%" alt="YZG.EDU"  />
+          <a href="/" title="在线云课程">
+            <img src="~/assets/img/logo.png"  width="280px" height="100px" alt="YZG.EDU"  />
           </a>
         </h1>
         <div class="h-r-nsl">
@@ -68,12 +68,12 @@
             <!-- /未登录显示第1 li；登录后显示第2，3 li -->
           </ul>
           <aside class="h-r-search">
-            <form action="#" method="post">
+            <form action="/course" method="post">
               <label class="h-r-s-box">
                 <input
                   type="text"
                   placeholder="输入你想学的课程"
-                  name="queryCourse.courseName"
+                  name="courseName"
                   value
                 />
                 <button type="submit" class="s-btn">
@@ -105,8 +105,8 @@
           </h4>
           <ul class="of flink-list">
             <li>
-              <a href="http://www.atguigu.com/" title="尚硅谷" target="_blank"
-                >尚硅谷</a
+              <a href="front.admin.vip" title="在线云课成平台" target="_blank"
+                >在线云课成平台</a
               >
             </li>
           </ul>
@@ -120,11 +120,11 @@
                 <a href="#" title="联系我们" target="_blank">联系我们</a>|
                 <a href="#" title="帮助中心" target="_blank">帮助中心</a>|
                 <a href="#" title="资源下载" target="_blank">资源下载</a>|
-                <span>服务热线：010-56253825(北京) 0755-85293825(深圳)</span>
-                <span>Email：info@atguigu.com</span>
+                <span>服务热线：110</span>
+                <span>Email：994887644@qq.com</span>
               </section>
               <section class="b-f-link mt10">
-                <span>©2018课程版权均归谷粒学院所有 京ICP备17055252号</span>
+                <span>©2018课程版权均归本平台所有 京ICP备17055252号</span>
               </section>
             </section>
           </section>
@@ -193,32 +193,30 @@ export default {
     //  微信登录
     wxLogin() {
       // 将 token 存到 cookie 中
-      cookie.set("guli_token", this.token, { domain: ".yzgcf.vip" });
-      cookie.set('userInfo','',{domain: '.yzgcf.vip'})
+      // 如果部署在服务器上，增加域名 , { domain: ".yzgcf.vip" }
+      cookie.set("guli_token", this.token);
+      cookie.set('userInfo','')
       //  根据  token 获取用户信息
       //  由于有拦截器，如果 cookie 中有 token ，拦截器就会把 token放到 header中，每次请求都会携带
       //  后端通过 请求的header获取用户信息.
       loginApi.getUser().then((response) => {
         this.loginInfo = response.data.data.userInfo
-        cookie.set("userInfo", JSON.stringify(this.loginInfo), { domain: ".yzgcf.vip" });
+        cookie.set("userInfo", JSON.stringify(this.loginInfo));
       });
     },
     showInfo() {
-      // 从 cookie 中取出数据
+      // 从 cookie 中取出数据unescape
       var str = cookie.get("userInfo");
-      
       // 从 cookie 中取出的数据是 JSON格式 的字符串，需要转换成JSON对象
       if (str) {
        
         this.loginInfo = JSON.parse(str)
-
-         console.log("#####：" + this.loginInfo)
       }
     },
     //  用户退出
     logout() {
-      cookie.set("guli_token", "", { domain: ".yzgcf.vip" });
-      cookie.set("userInfo", "", { domain: ".yzgcf.vip" });
+      cookie.set("guli_token", "");
+      cookie.set("userInfo", "");
       this.token=''
       window.location.href = "/";
     },

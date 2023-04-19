@@ -55,7 +55,7 @@
             <a
               id="weixin"
               class="weixin"
-              href="http://47.122.0.123:8160/api/ucenter/wx/login"
+              href="http://localhost:8160/api/ucenter/wx/login"
               ><i class="iconfont icon-weixin"
             /></a>
           </li>
@@ -86,7 +86,8 @@ export default {
         mobile: "",
         password: "",
       },
-      loginInfo: {}
+      loginInfo: {},
+      loginMsg: ''
     };
   },
 
@@ -100,15 +101,33 @@ export default {
         //  第一个参数: cookie 的 key 值
         //  第二个参数: cookie 的 value 值
         //  第三个参数: cookie 的 作用范围
-        cookie.set("guli_token", response.data.data.token,  { domain: '.yzgcf.vip' })
+        cookie.set("guli_token", response.data.data.token)
         // 第四步: 获取用户信息，并将用户信息保存到 cookie 中
         loginApi.getUser().then(response => {
-          //  由于后端返回的是 JSON 对象，而 cookie 中只能存储 字符串，所以把 JSON 对象转换成 JSON 字符串
+          //  由于后端返回的是 JSON 对象，而 cookie 中只能存储 字符串，所以把 JSON 对象转换成 JSON 字符串.yzgcf.vip
           this.loginInfo = response.data.data.userInfo
-          cookie.set("userInfo",JSON.stringify(this.loginInfo), { domain: '.yzgcf.vip' })
+          console.log(JSON.stringify(this.loginInfo))
+          cookie.set("userInfo",JSON.stringify(this.loginInfo))
         })
         // 跳转首页,使用 $router.push 也可以
-        window.location.href = '/'
+        // 
+        if (response.data.code == 20001){
+          console.log("登录失败")
+            this.$message({
+            type: "error",
+            message: '密码错误或手机号不存在'
+          });
+          return false ;
+        }
+
+        this.$message({
+            type: "success",
+            message: '登录成功'
+          });
+        // window.location.href = '/'
+        // this.$route.push
+        window.open("/")
+        // return false;
         
       });
     },

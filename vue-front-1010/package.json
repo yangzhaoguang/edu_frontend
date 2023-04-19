@@ -1,7 +1,7 @@
 {
   "name": "vue-front-1010",
   "version": "3.2.37",
-  "description": "谷粒学院前台网站",
+  "description": "在线云课程学习平台",
   "author": "yang <994887644@qq.com>",
   "private": true,
   "scripts": {
@@ -11,6 +11,12 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
+  },
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "post": 3000
+    }
   },
   "dependencies": {
     "axios": "^0.27.2",
