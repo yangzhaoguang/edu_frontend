@@ -82,7 +82,7 @@ export default {
                 this.$router.push({path: '/course/' + this.payObj.course_id})
                 }else{
                     // 支付中
-                    if(this.timeCount == 6000) {
+                    if(this.timeCount == 90) {
                     // 超时未支付，清空计时器
                     clearInterval(this.timer1)
                     // 超过 30s未支付，跳转课程详情界面

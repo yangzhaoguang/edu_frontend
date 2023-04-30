@@ -124,9 +124,9 @@ export default {
             type: "success",
             message: '登录成功'
           });
-        // window.location.href = '/'
+        window.location.href = '/'
         // this.$route.push
-        window.open("/")
+        // window.open("/")
         // return false;
         
       });
